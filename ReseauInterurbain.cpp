@@ -66,7 +66,29 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
 		unReseau.ajouterArc(unReseau.getNumeroSommet(source), unReseau.getNumeroSommet(destination), duree, cout);
 	}
 }
+/**
+ * \brief Constructeur de la classe ReseauInterurbain
+ * @param nomReseau un string, le nom de notre reseau
+ * @param nbVilles un size_t, le nombre de ville dans le reseau
+ */
+    ReseauInterurbain::ReseauInterurbain(std::string nomReseau, size_t nbVilles): nomReseau(nomReseau),unReseau(nbVilles)
+    {
 
-//À compléter par l'implémentation des autres méthodes demandées
+    }
+/**
+ * \brief Destructeur de la classe ReseauInterurbain
+ *
+ */
+    ReseauInterurbain::~ReseauInterurbain()
+    {}
+/**
+ * \brief Change la taille du réseau en utilisant un nombre de villes = nouvelleTaille
+ * @param nouvelleTaille la nouvelle taille de notre reseau urbain
+ */
+    void ReseauInterurbain::resize(size_t nouvelleTaille)
+    {
+        unReseau.resize(nouvelleTaille);
+    }
+
 
 }//Fin du namespace
