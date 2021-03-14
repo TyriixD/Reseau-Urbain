@@ -102,6 +102,7 @@ namespace TP2
             }
         }
         listesAdj[source].erase(arcPourSuppression);
+        nbArcs--;
 
     }
 /**
@@ -123,5 +124,91 @@ namespace TP2
         }
         return valeurPourRetour;
     }
+/**
+ * \brief Retourne la liste de successeurs d'un sommmet, lance une exception si le sommet est superieur a nb sommet
+ * @param sommet Le sommet que l'on cherche sa liste d'adjacence
+ * @return la liste de sommet adjacent
+ */
+    std::vector<size_t> Graphe::listerSommetsAdjacents(size_t sommet) const
+    {
+        if (sommet > nbSommets)
+        {
+            throw logic_error("Le sommet est supérieur à nbSommets");
+        }
+        std::vector<size_t> listeSommetAdjacents;
+        for(auto arc: listesAdj[sommet]){
+            listeSommetAdjacents.push_back(arc.destination);
+        }
+        return listeSommetAdjacents;
+    }
+/**
+ * \brief Retourne le nom d'un sommet
+ * @param sommet l'indice du sommet que l'on cherche
+ * @return le nom du sommet
+ */
+    std::string Graphe::getNomSommet(size_t sommet) const
+    {
+        if (sommet > nbSommets)
+        {
+            throw logic_error("Le sommet est supérieur à nbSommets");
+        }
+
+        return noms[sommet];
+    }
+
+/**
+ * \brief Retourne le numéro d'un sommet
+ * @param nom le nom du sommet dont on veut le numero
+ * @return le nom du sommet
+ */
+    size_t Graphe::getNumeroSommet(const string &nom) const
+    {
+        for (size_t i = 0; i < noms.size(); i++)
+        {
+            if (noms[i] == nom){
+                return i;
+            }
+        }
+        throw logic_error("Le nom de l'arc est introuvable");
+
+    }
+/**
+ * \brief Retourne le nombre de sommet du graphe
+ * @return nbSommets
+ */
+    int Graphe::getNombreSommets() const
+    {
+        return nbSommets;
+    }
+/**
+ * \brief Retourne le nombre des arcs du graphe
+ * @return nbArcs
+ */
+    int Graphe::getNombreArcs() const
+    {
+        return nbArcs;
+    }
+/**
+ * \brief Retourne les pondérations se trouvant dans un arc (source -> destination), lance une exception si la source supérieurs a nb sommet et si arc existe pas
+ * @param source
+ * @param destination
+ * @return
+ */
+    Ponderations Graphe::getPonderationsArc(size_t source, size_t destination) const
+    {
+        if(source > nbSommets || destination > nbSommets){
+            throw logic_error("La source ou la destination est plus grande que le nombre de sommet");
+        }
+        if(!arcExiste(source, destination)){
+            throw logic_error("L'arc n'existe pas dans le graphe");
+        }
+
+        for(Arc arc : listesAdj[source]){
+            if (arc.destination == destination){
+                return arc.poids;
+            }
+        }
+    }
+
 
 }//Fin du namespace
