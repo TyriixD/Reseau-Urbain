@@ -89,6 +89,26 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
     {
         unReseau.resize(nouvelleTaille);
     }
+/**
+ * \brief Trouve le plus court chemin entre une ville source et une ville destination en utilisant l'algorithme de Dijkstra
+ * @param origine la ville ou l'on part
+ * @param destination la ville ou l'on veut aller
+ * @param dureeCout true, on utilise la duree comme ponderation des trajets, false, on utilise le cout en $
+ * @return
+ */
+    Chemin ReseauInterurbain::rechercheCheminDijkstra(const std::string &origine, const std::string &destination,
+                                                      bool dureeCout) const
+    {
+        Chemin cheminPlusCourt;
+        cheminPlusCourt.coutTotal = 0;
+        cheminPlusCourt.dureeTotale= 0;
+        cheminPlusCourt.reussi = false;
+
+        size_t indexVilleDepart = unReseau.getNumeroSommet(origine);
+        size_t indexVilleArrivee = unReseau.getNumeroSommet(destination);
+
+        cheminPlusCourt.listeVilles.push_back(origine);
+    }
 
 
 }//Fin du namespace

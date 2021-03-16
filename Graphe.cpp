@@ -169,7 +169,7 @@ namespace TP2
                 return i;
             }
         }
-        throw logic_error("Le nom de l'arc est introuvable");
+        throw logic_error("Le nom du sommet est introuvable");
 
     }
 /**
@@ -209,11 +209,16 @@ namespace TP2
             }
         }
     }
-
-    std::vector<size_t> Graphe::inverserListeAdjacenceSommet(size_t sommet) const
+/**
+ * \brief Fait l'inversion de la liste
+ * @param sommet
+ */
+    std::vector<size_t> Graphe::GetSommetAdjacentInverse(size_t sommet) const
     {
         vector<size_t> listeSommetInverse;
+        //On parcour le vecteur de liste d'adjacence
         for(size_t numSommet = 0; numSommet < listesAdj.size(); numSommet++){
+            //On parcour la liste d'adjacence
             for(auto arc: listesAdj[numSommet]){
                 if(arc.destination == sommet){
                     listeSommetInverse.push_back(numSommet);
