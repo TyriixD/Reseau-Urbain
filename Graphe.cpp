@@ -210,5 +210,18 @@ namespace TP2
         }
     }
 
+    std::vector<size_t> Graphe::inverserListeAdjacenceSommet(size_t sommet) const
+    {
+        vector<size_t> listeSommetInverse;
+        for(size_t numSommet = 0; numSommet < listesAdj.size(); numSommet++){
+            for(auto arc: listesAdj[numSommet]){
+                if(arc.destination == sommet){
+                    listeSommetInverse.push_back(numSommet);
+                }
+            }
+        }
+        return listeSommetInverse;
+    }
+
 
 }//Fin du namespace

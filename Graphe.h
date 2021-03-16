@@ -91,6 +91,8 @@ public:
 	// Exception logic_error si l'arc n'existe pas dans le graphe
 	Ponderations getPonderationsArc(size_t source, size_t destination) const;
 
+	std::vector<size_t> inverserListeAdjacenceSommet(size_t sommet) const;
+
 	//Ne touchez pas à cette fonction !
 	friend std::ostream& operator<<(std::ostream& out, const Graphe& g)
 	{
