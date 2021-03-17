@@ -38,6 +38,7 @@ namespace TP2
 
 
 
+
 /**
  * \class Graphe
  * \brief Classe représentant un graphe
@@ -96,7 +97,7 @@ namespace TP2
         Ponderations getPonderationsArc(size_t source, size_t destination) const;
 
         std::vector<size_t> GetSommetAdjacentInverse(size_t sommet) const;
-        std::size_t getLeNumSommetAvecLaPlusPetiteDistance(std::vector<unsigned int> vecteurDistance, int size);
+        static std::size_t getLeNumSommetAvecLaPlusPetiteDistance(std::vector<unsigned int> vecteurDistance, int size);
 
         //Ne touchez pas à cette fonction !
         friend std::ostream &operator<<(std::ostream &out, const Graphe &g)

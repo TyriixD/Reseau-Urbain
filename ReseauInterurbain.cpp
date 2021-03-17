@@ -11,6 +11,7 @@
 #include <sstream>
 #include <fstream>
 #include <set>
+#include <algorithm>
 #include "ReseauInterurbain.h"
 using namespace std;
 //vous pouvez inclure d'autres librairies si c'est nécessaire
@@ -114,6 +115,7 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         set<size_t> nonSolutionne;
 
         size_t sommetCourant = unReseau.getNumeroSommet(origine);
+        size_t sommetArrivee = unReseau.getNumeroSommet(destination);
 
         distance[sommetCourant] = 0;
 
@@ -131,14 +133,53 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
                     distance[sommetAdjacent] = distance[sommetCourant] + poidMinimum;
                     predecesseur[sommetAdjacent] = sommetCourant;
                 }
-                //On met notre ville en tant que solutionnée
+                // Si le sommet n'est pas solutionner et qu'il est la plus petite distance
+                if(!sommetSolutionne[sommetAdjacent])
+                {
+                    nonSolutionne.insert(sommetAdjacent);
+                }
+
             }
+
+            //On cherche la prochaine ville a explorer en prenant celle avec la plus petite distance et pas dans le sous-graphe
             sommetSolutionne[sommetCourant] = true;
+            nonSolutionne.erase(sommetCourant);
+            float poidMinimum = 1e6;
+            for (auto sommet: nonSolutionne)
+            {
+                if(distance[sommet] < poidMinimum)
+                {
+                    poidMinimum = distance[sommet];
+                    sommetCourant = sommet;
+                }
+            }
+            if (sommetCourant == sommetArrivee)
+            {
+                vector<size_t> cheminInverse;
+                cheminInverse.push_back(sommetCourant);
+                do
+                {
+                    cheminInverse.push_back(predecesseur[sommetCourant]);
+                    sommetCourant = predecesseur[sommetCourant];
+                }
+                while(sommetCourant != unReseau.getNumeroSommet(origine));
 
-
-
+                reverse(cheminInverse.begin(), cheminInverse.end()); //On remet le chemin dans le bon ordre, du debut à la fin
+                for(size_t index = 0; index < cheminInverse.size(); index++)
+                {
+                    if(index > 0)
+                    {
+                        cheminPlusCourt.dureeTotale += obtenirCoutDistance(cheminInverse[index-1], cheminInverse[index],true);
+                        cheminPlusCourt.coutTotal += obtenirCoutDistance(cheminInverse[index-1], cheminInverse[index], false);
+                    }
+                    cheminPlusCourt.listeVilles.push_back(unReseau.getNomSommet(cheminInverse[index]));
+                }
+                cheminPlusCourt.reussi = true;
+                return cheminPlusCourt;
+            }
 
         }
+
 
         }
 
