@@ -11,6 +11,7 @@
 
 #include "Graphe.h"
 
+
 using namespace std;
 //vous pouvez inclure d'autres librairies si c'est nécessaire
 
@@ -21,7 +22,7 @@ namespace TP2
     /**
  * \brief Constructeur par defaut du graphe, il initialise l'attribut nbSommets a 10 par défault
  */
-    Graphe::Graphe(size_t nbSommets) : nbSommets(10), listesAdj(std::vector<std::list<Arc>>()), nbArcs(0)
+    Graphe::Graphe(size_t nbSommets) : nbSommets(10), listesAdj(std::vector<std::list<Arc>>(nbSommets)), nbArcs(0), noms(vector<string>(nbSommets))
     {
 
     }
@@ -52,6 +53,10 @@ namespace TP2
  */
     void Graphe::nommer(size_t sommet, const string &nom)
     {
+        if (sommet > nbSommets)
+        {
+            throw logic_error("L'indice du sommet ou de la destination est plus excède la grosseur du graphe");
+        }
         noms[sommet] = nom;
     }
 /**
@@ -71,13 +76,11 @@ namespace TP2
         {
             throw logic_error("L'arc existe déjà dans le graphe");
         }
-         Ponderations ponderations(duree,cout);
-        /*Arc arcAjoute(destination,ponderations);
+        Ponderations ponderations(duree,cout);
+        Arc arcAjoute(destination,ponderations);
 
         listesAdj[source].push_back(arcAjoute);
-        nbArcs++; */
-        listesAdj[source].emplace_back(Arc(destination, ponderations));
-        ++nbArcs;
+        nbArcs++;
 
     }
 /**
@@ -97,15 +100,18 @@ namespace TP2
         }
 
         list<Arc>:: iterator arcPourSuppression;
-        for(auto it = listesAdj[source].begin(); it != listesAdj[source].end(); it++)
+        for(auto it = listesAdj[source].begin(); it != listesAdj[source].end();it++)
         {
             if (it->destination == destination)
             {
                 arcPourSuppression = it;
+                listesAdj[source].erase(arcPourSuppression);
             }
         }
-        listesAdj[source].erase(arcPourSuppression);
+
         nbArcs--;
+
+
 
     }
 /**
@@ -118,9 +124,9 @@ namespace TP2
     {
         bool valeurPourRetour = false;
 
-        for(auto it = listesAdj[source].begin(); it != listesAdj[source].end(); it++)
+        for(auto arc: listesAdj[source])
         {
-            if (it->destination == destination)
+            if (arc.destination == destination)
             {
                 valeurPourRetour = true;
             }
@@ -244,7 +250,7 @@ namespace TP2
         return index;
     }
 
-    bool Graphe::sommetExiste(const std::string nomSommet) const
+    bool Graphe::sommetExiste(const std::string& nomSommet) const
     {
         bool valeurDeRetour = false;
         for (auto nom: noms)
