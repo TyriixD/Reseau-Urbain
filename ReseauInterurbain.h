@@ -16,6 +16,7 @@
 #include <climits>
 #include <vector>
 #include <list>
+#include <limits>
 //vous pouvez inclure d'autres librairies de la STL si vous pensez les utiliser
 
 
@@ -75,6 +76,7 @@ public:
 	std::vector<std::vector<std::string> > algorithmeKosaraju();
 
 	//Vous pouvez ajoutez d'autres méthodes publiques si vous sentez leur nécessité
+	float obtenirCoutDistance(size_t source, size_t destination, bool dureeCout) const;
 
 private:
 

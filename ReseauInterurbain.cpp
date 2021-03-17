@@ -10,7 +10,9 @@
  */
 #include <sstream>
 #include <fstream>
+#include <set>
 #include "ReseauInterurbain.h"
+using namespace std;
 //vous pouvez inclure d'autres librairies si c'est nécessaire
 
 namespace TP2
@@ -104,10 +106,59 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         cheminPlusCourt.dureeTotale= 0;
         cheminPlusCourt.reussi = false;
 
-        size_t indexVilleDepart = unReseau.getNumeroSommet(origine);
-        size_t indexVilleArrivee = unReseau.getNumeroSommet(destination);
+        vector<unsigned int> distance(unReseau.getNombreSommets(), numeric_limits<unsigned int>::max()); //on met les distances a infini au debut
+        vector<size_t> predecesseur(unReseau.getNombreSommets(), numeric_limits<size_t>::max()); //on met les sommets inconnue
+        vector<bool> sommetSolutionne(unReseau.getNombreSommets(), false); //on met tous les sommets a non parcourus
 
-        cheminPlusCourt.listeVilles.push_back(origine);
+        //Creation d'un set pour notre ensemble de sommet non solutionnés
+        set<size_t> nonSolutionne;
+
+        size_t sommetCourant = unReseau.getNumeroSommet(origine);
+
+        distance[sommetCourant] = 0;
+
+
+        nonSolutionne.insert(unReseau.getNumeroSommet(origine));
+
+        while (!nonSolutionne.empty())
+        {
+            for(auto sommetAdjacent: unReseau.listerSommetsAdjacents(sommetCourant))
+            {
+                float poidMinimum = obtenirCoutDistance(sommetCourant,sommetAdjacent,dureeCout);
+                //relachement des arcs et mise a jour des poids et predecesseur
+                if (distance[sommetAdjacent] > distance[sommetCourant] + poidMinimum)
+                { //Si le poid est plus grand que ce qu'on a, on l'actualise
+                    distance[sommetAdjacent] = distance[sommetCourant] + poidMinimum;
+                    predecesseur[sommetAdjacent] = sommetCourant;
+                }
+                //On met notre ville en tant que solutionnée
+            }
+            sommetSolutionne[sommetCourant] = true;
+
+
+
+
+        }
+
+        }
+
+    std::vector<std::vector<std::string> > ReseauInterurbain::algorithmeKosaraju()
+    {
+        return std::vector<std::vector<std::string>>();
+    }
+
+    float ReseauInterurbain::obtenirCoutDistance(size_t source, size_t destination, bool dureeCout) const
+    {
+        Ponderations poid = unReseau.getPonderationsArc(source,destination);
+
+        float valeurDeRetour;
+        if (dureeCout){
+            valeurDeRetour = poid.duree;
+        }
+        else{
+            valeurDeRetour = poid.cout;
+        }
+        return valeurDeRetour;
     }
 
 
