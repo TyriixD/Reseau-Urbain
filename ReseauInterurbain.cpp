@@ -187,12 +187,22 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
 
 
         }
-
+/**
+ * \brief Trouve l’ensemble des composantes fortement connexes en utilisant l'algorithme de Kosaraju
+ * @return un vecteur de vecteurs de chaînes caractères
+ */
     std::vector<std::vector<std::string> > ReseauInterurbain::algorithmeKosaraju()
     {
         return std::vector<std::vector<std::string>>();
     }
 
+    /**
+     * \brief Vient chercher la ponderation d'un arc et calcul le cout de distance selon le booleen donnee
+     * @param source le sommet de depart
+     * @param destination le sommet d'arrive
+     * @param dureeCout un booleen true, si on veut la duree, false si on veut le cout
+     * @return le poid d'un arc
+     */
     float ReseauInterurbain::obtenirCoutDistance(size_t source, size_t destination, bool dureeCout) const
     {
         Ponderations poid = unReseau.getPonderationsArc(source,destination);
@@ -205,6 +215,65 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
             valeurDeRetour = poid.cout;
         }
         return valeurDeRetour;
+    }
+
+    std::vector<size_t>
+    ReseauInterurbain::parcoursProfondeur(size_t source, stack<size_t> &pile, vector<bool> &parcouru) const
+    {
+        vector<size_t> resultat;
+        //On commence le parcours en visitant le premier sommet et en l'ajoutant à la pile
+        parcouru[source] = true;
+        pile.push(source);
+
+        while(!pile.empty())
+        {
+            size_t prochainSommet = pile.top();
+            pile.pop();
+            resultat.push_back(prochainSommet);
+
+            vector<size_t> sommetAdjacents = unReseau.listerSommetsAdjacents(prochainSommet);
+
+            for(unsigned long & sommetAdjacent : sommetAdjacents)
+            {
+                if(!parcouru[sommetAdjacent])
+                {
+                    pile.push(sommetAdjacent);
+                    parcouru[sommetAdjacent] = true;
+                }
+            }
+
+
+        }
+        return resultat;
+    }
+
+    std::vector<size_t> ReseauInterurbain::parcoursProfondeurInverse(size_t source, stack<size_t> &pile, vector<bool> &parcouru) const
+    {
+        vector<size_t> resultat;
+
+        parcouru[source] = true;
+        pile.push(source);
+
+        while(!pile.empty())
+        {
+            size_t prochainSommet = pile.top();
+            pile.pop();
+            resultat.push_back(prochainSommet);
+
+            vector<size_t> sommetAdjacentsInverse = unReseau.GetSommetAdjacentInverse(prochainSommet);
+
+            for(unsigned long & sommetAdjacent : sommetAdjacentsInverse)
+            {
+                if(!parcouru[sommetAdjacent])
+                {
+                    pile.push(sommetAdjacent);
+                    parcouru[sommetAdjacent] = true;
+                }
+            }
+
+
+        }
+        return resultat;
     }
 
 

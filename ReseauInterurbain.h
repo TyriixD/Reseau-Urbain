@@ -17,6 +17,7 @@
 #include <vector>
 #include <list>
 #include <limits>
+#include <stack>
 //vous pouvez inclure d'autres librairies de la STL si vous pensez les utiliser
 
 
@@ -74,7 +75,8 @@ public:
 	// Trouve l’ensemble des composantes fortement connexes en utilisant l'algorithme de Kosaraju
 	// Retourne un vecteur de vecteurs de chaînes caractères. Chaque sous-vecteur représente une composante.
 	std::vector<std::vector<std::string> > algorithmeKosaraju();
-
+    std::vector<size_t> parcoursProfondeur(size_t source, std::stack<size_t> & pile, std::vector<bool> & parcouru) const;
+    std::vector<size_t> parcoursProfondeurInverse(size_t source, std::stack<size_t> & pile, std::vector<bool> & parcouru) const;
 	//Vous pouvez ajoutez d'autres méthodes publiques si vous sentez leur nécessité
 	float obtenirCoutDistance(size_t source, size_t destination, bool dureeCout) const;
 
