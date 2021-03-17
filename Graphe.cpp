@@ -43,6 +43,7 @@ namespace TP2
         noms.resize(nouvelleTaille);
         listesAdj.resize(nouvelleTaille);
         nbSommets = nouvelleTaille;
+
     }
 /**
  * \brief Donne un nom à un sommet en utlisant son numéro (indice dans le vector).
@@ -70,11 +71,13 @@ namespace TP2
         {
             throw logic_error("L'arc existe déjà dans le graphe");
         }
-        Ponderations ponderations(duree,cout);
-        Arc arcAjoute(destination,ponderations);
+         Ponderations ponderations(duree,cout);
+        /*Arc arcAjoute(destination,ponderations);
 
         listesAdj[source].push_back(arcAjoute);
-        nbArcs++;
+        nbArcs++; */
+        listesAdj[source].emplace_back(Arc(destination, ponderations));
+        ++nbArcs;
 
     }
 /**
@@ -239,6 +242,19 @@ namespace TP2
             }
        }
         return index;
+    }
+
+    bool Graphe::sommetExiste(const std::string nomSommet) const
+    {
+        bool valeurDeRetour = false;
+        for (auto nom: noms)
+        {
+            if (nom == nomSommet)
+            {
+                valeurDeRetour = true;
+            }
+        }
+        return valeurDeRetour;
     }
 
 

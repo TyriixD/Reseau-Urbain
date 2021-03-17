@@ -98,6 +98,7 @@ namespace TP2
 
         std::vector<size_t> GetSommetAdjacentInverse(size_t sommet) const;
         static std::size_t getLeNumSommetAvecLaPlusPetiteDistance(std::vector<unsigned int> vecteurDistance, int size);
+        bool sommetExiste(const std::string nomSommet) const;
 
         //Ne touchez pas à cette fonction !
         friend std::ostream &operator<<(std::ostream &out, const Graphe &g)

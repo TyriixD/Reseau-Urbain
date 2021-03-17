@@ -102,6 +102,11 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
     Chemin ReseauInterurbain::rechercheCheminDijkstra(const std::string &origine, const std::string &destination,
                                                       bool dureeCout) const
     {
+        if(!unReseau.sommetExiste(origine) || !unReseau.sommetExiste(destination))
+        {
+            throw logic_error("L'origine ou la destination est absente du reseau");
+        }
+
         Chemin cheminPlusCourt;
         cheminPlusCourt.coutTotal = 0;
         cheminPlusCourt.dureeTotale= 0;
