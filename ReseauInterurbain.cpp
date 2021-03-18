@@ -240,11 +240,11 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         return valeurDeRetour;
     }
 /**
- * 
- * @param source
- * @param pile
- * @param parcouru
- * @return
+ * \brief fait le parcour en prodonfeur a partir d'un sommet et sa liste d'adjacence
+ * @param source le sommet de depart
+ * @param pile, une pile vide
+ * @param parcouru un vecteur de booleen si les sommets sont parcourus ou non
+ * @return un vecteur contenant les sommets du parcour en ordre
  */
     std::vector<size_t>
     ReseauInterurbain::parcoursProfondeur(size_t source, stack<size_t> &pile, vector<bool> &parcouru) const
@@ -275,7 +275,13 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         }
         return resultat;
     }
-
+/**
+ * \brief fait le parcour en prodonfeur a partir d'un sommet et sa liste d'adjacence inverse
+ * @param source le sommet de depart
+ * @param pile, une pile vide
+ * @param parcouru un vecteur de booleen si les sommets sont parcourus ou non
+ * @return un vecteur contenant les sommets du parcour en ordre
+ */
     std::vector<size_t> ReseauInterurbain::parcoursProfondeurInverse(size_t source, stack<size_t> &pile, vector<bool> &parcouru) const
     {
         vector<size_t> resultat;

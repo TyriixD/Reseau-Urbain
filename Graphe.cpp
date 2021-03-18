@@ -237,7 +237,11 @@ namespace TP2
         return listeSommetInverse;
     }
 
-
+/**
+ * \brief Verifie si le sommet est dans le graphe
+ * @param nomSommet
+ * @return un bool true si oui, false autrement
+ */
 
     bool Graphe::sommetExiste(const std::string& nomSommet) const
     {
