@@ -237,18 +237,7 @@ namespace TP2
         return listeSommetInverse;
     }
 
-    std::size_t Graphe::getLeNumSommetAvecLaPlusPetiteDistance(std::vector<unsigned int> vecteurDistance, int size)
-    {
-       int index = 0;
-        for(int i = 1; i <size; i++)
-        {
-            if (vecteurDistance[i] < vecteurDistance[index])
-            {
-                index = i;
-            }
-       }
-        return index;
-    }
+
 
     bool Graphe::sommetExiste(const std::string& nomSommet) const
     {

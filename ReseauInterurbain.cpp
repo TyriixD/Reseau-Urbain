@@ -193,7 +193,28 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
  */
     std::vector<std::vector<std::string> > ReseauInterurbain::algorithmeKosaraju()
     {
-        return std::vector<std::vector<std::string>>();
+        vector<size_t> parcoursProfondeurGraphe = parcoursProfondeurDuGraphe();
+        reverse(parcoursProfondeurGraphe.begin(),parcoursProfondeurGraphe.end());
+
+        vector<vector<string> > composantes; //Un vecteur contenant nos ensemble de composante, les composantes sont sous formes de vecteur
+        vector<bool> parcouru(unReseau.getNombreSommets(),false);
+        stack<size_t> pile;
+
+        for(auto sommet: parcoursProfondeurGraphe){
+            std::vector<std::string> composante_fortement_connexe;
+
+            if(!parcouru[sommet]){
+                for(auto noeud : parcoursProfondeurInverse(sommet,pile, parcouru))
+                {
+                    composante_fortement_connexe.push_back(unReseau.getNomSommet(noeud));
+                }
+                composantes.push_back(composante_fortement_connexe);
+            }
+        }
+
+
+
+        return composantes;
     }
 
     /**
@@ -274,6 +295,39 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
 
         }
         return resultat;
+    }
+/**
+ * \brief Fait le parcour en profondeur pour chaque sommet du graphe
+ * @return un vecteur avec les sommets du parcour
+ */
+    std::vector<size_t> ReseauInterurbain::parcoursProfondeurDuGraphe() const
+    {
+        std::vector<size_t> DFS;
+        std::vector<bool> parcouru(unReseau.getNombreSommets(),false);
+        std::stack<size_t> pile;
+        for(size_t index=0; index < unReseau.getNombreSommets(); index++){
+            if(!parcouru[index]){
+                for(auto noeud : parcoursProfondeur(index,pile, parcouru)){
+                    DFS.push_back(noeud);
+                }
+            }
+        }
+        return DFS;
+    }
+
+    std::vector<size_t> ReseauInterurbain::parcoursProfondeurDuGrapheInverse() const
+    {
+        std::vector<size_t> DFS;
+        std::vector<bool> parcouru(unReseau.getNombreSommets(),false);
+        std::stack<size_t> pile;
+        for(size_t index=0; index < unReseau.getNombreSommets(); index++){
+            if(!parcouru[index]){
+                for(auto noeud : parcoursProfondeurInverse(index,pile, parcouru)){
+                    DFS.push_back(noeud);
+                }
+            }
+        }
+        return DFS;
     }
 
 
