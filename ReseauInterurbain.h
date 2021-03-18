@@ -78,7 +78,6 @@ public:
     std::vector<size_t> parcoursProfondeur(size_t source, std::stack<size_t> & pile, std::vector<bool> & parcouru) const;
     std::vector<size_t> parcoursProfondeurInverse(size_t source, std::stack<size_t> & pile, std::vector<bool> & parcouru) const;
     std::vector<size_t> parcoursProfondeurDuGraphe() const;
-    std::vector<size_t> parcoursProfondeurDuGrapheInverse() const;
 	//Vous pouvez ajoutez d'autres méthodes publiques si vous sentez leur nécessité
 	float obtenirCoutDistance(size_t source, size_t destination, bool dureeCout) const;
 

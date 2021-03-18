@@ -199,12 +199,14 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         vector<vector<string> > composantes; //Un vecteur contenant nos ensemble de composante, les composantes sont sous formes de vecteur
         vector<bool> parcouru(unReseau.getNombreSommets(),false);
         stack<size_t> pile;
+        stack<size_t> pileInverser;
+
 
         for(auto sommet: parcoursProfondeurGraphe){
             std::vector<std::string> composante_fortement_connexe;
 
             if(!parcouru[sommet]){
-                for(auto noeud : parcoursProfondeurInverse(sommet,pile, parcouru))
+                for(auto noeud : parcoursProfondeurInverse(sommet,pileInverser, parcouru))
                 {
                     composante_fortement_connexe.push_back(unReseau.getNomSommet(noeud));
                 }
@@ -237,7 +239,13 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         }
         return valeurDeRetour;
     }
-
+/**
+ * 
+ * @param source
+ * @param pile
+ * @param parcouru
+ * @return
+ */
     std::vector<size_t>
     ReseauInterurbain::parcoursProfondeur(size_t source, stack<size_t> &pile, vector<bool> &parcouru) const
     {
@@ -305,6 +313,7 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         std::vector<size_t> DFS;
         std::vector<bool> parcouru(unReseau.getNombreSommets(),false);
         std::stack<size_t> pile;
+
         for(size_t index=0; index < unReseau.getNombreSommets(); index++){
             if(!parcouru[index]){
                 for(auto noeud : parcoursProfondeur(index,pile, parcouru)){
@@ -315,20 +324,7 @@ void ReseauInterurbain::chargerReseau(std::ifstream & fichierEntree)
         return DFS;
     }
 
-    std::vector<size_t> ReseauInterurbain::parcoursProfondeurDuGrapheInverse() const
-    {
-        std::vector<size_t> DFS;
-        std::vector<bool> parcouru(unReseau.getNombreSommets(),false);
-        std::stack<size_t> pile;
-        for(size_t index=0; index < unReseau.getNombreSommets(); index++){
-            if(!parcouru[index]){
-                for(auto noeud : parcoursProfondeurInverse(index,pile, parcouru)){
-                    DFS.push_back(noeud);
-                }
-            }
-        }
-        return DFS;
-    }
+
 
 
 }//Fin du namespace
